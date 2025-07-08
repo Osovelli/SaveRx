@@ -1,85 +1,74 @@
 import { useState } from "react"
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  Linkedin,
-  Mail,
-  Phone,
-  MapPin,
-  ChevronDown,
-  Shield,
-  Truck,
-  Clock,
-} from "lucide-react"
+import { Facebook, Twitter, Instagram, Youtube, Linkedin, Mail, MapPin, ArrowRight } from "lucide-react"
+import { CustomButton } from "../CustomButton"
+import { Checkbox } from "../CustomCheckbox"
 
 const footerLinks = {
-  company: [
-    { label: "About Us", href: "/about" },
-    { label: "Our Story", href: "/story" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press & Media", href: "/press" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contact Us", href: "/contact" },
-  ],
-  services: [
-    { label: "My Account", href: "/account" },
-    { label: "Track Your Order", href: "/track-order" },
-    { label: "Prescription Upload", href: "/upload-prescription" },
-    { label: "Medication Reminders", href: "/reminders" },
-    { label: "Health Consultation", href: "/consultation" },
-    { label: "FAQ", href: "/faq" },
-  ],
   information: [
+    { label: "About Us", href: "/about" },
+    { label: "Delivery Information", href: "/delivery" },
     { label: "Privacy Policy", href: "/privacy" },
+    { label: "Prescription Upload", href: "/upload-prescription" },
     { label: "Terms & Conditions", href: "/terms" },
-    { label: "Return Policy", href: "/returns" },
-    { label: "Shipping Policy", href: "/shipping" },
-    { label: "Refund Policy", href: "/refunds" },
   ],
-  quickLinks: [
-    { label: "Emergency Pharmacy", href: "/emergency" },
-    { label: "Prescription Drugs", href: "/prescription" },
-    { label: "Over-the-Counter", href: "/otc" },
-    { label: "Vitamins & Supplements", href: "/vitamins" },
-    { label: "Medical Devices", href: "/devices" },
-    { label: "Health & Wellness", href: "/wellness" },
+  account: [
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "My Orders", href: "/orders" },
+    { label: "Account Details", href: "/profile" },
+    { label: "Prescription History", href: "/prescriptions" },
+    { label: "Wishlist", href: "/wishlist" },
   ],
 }
 
 const socialLinks = [
-  { icon: Facebook, href: "https://facebook.com/saverx", label: "Facebook" },
-  { icon: Twitter, href: "https://twitter.com/saverx", label: "Twitter" },
-  { icon: Instagram, href: "https://instagram.com/saverx", label: "Instagram" },
-  { icon: Linkedin, href: "https://linkedin.com/company/saverx", label: "LinkedIn" },
-  { icon: Youtube, href: "https://youtube.com/saverx", label: "YouTube" },
+  { icon: Facebook, href: "https://facebook.com/saverx", label: "Facebook", color: "hover:bg-blue-600" },
+  { icon: Instagram, href: "https://instagram.com/saverx", label: "Instagram", color: "hover:bg-pink-600" },
+  { icon: Linkedin, href: "https://linkedin.com/company/saverx", label: "LinkedIn", color: "hover:bg-blue-700" },
+  { icon: Twitter, href: "https://twitter.com/saverx", label: "Twitter", color: "hover:bg-sky-500" },
+  { icon: Youtube, href: "https://youtube.com/saverx", label: "YouTube", color: "hover:bg-red-600" },
 ]
 
-const trustBadges = [
-  { icon: Shield, text: "NAFDAC Approved" },
-  { icon: Truck, text: "Free Delivery" },
-  { icon: Clock, text: "24/7 Support" },
-]
+/* const paymentMethods = [
+  { name: "PayPal", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" },
+  { name: "Visa", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" },
+  { name: "Mastercard", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" },
+  {
+    name: "American Express",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg",
+  },
+] */
 
 export default function Footer() {
-  const [selectedLanguage, setSelectedLanguage] = useState("English")
-  const [selectedCurrency, setSelectedCurrency] = useState("USD")
-  const [hoveredSocial, setHoveredSocial] = useState(null)
+  const [email, setEmail] = useState("")
+  const [acceptTerms, setAcceptTerms] = useState(false)
+  const [subscribeStatus, setSubscribeStatus] = useState("idle")
 
-  const languages = ["English", "Spanish", "French"]
-  const currencies = ["USD", "EUR", "CAD"]
+  const handleSubscribe = async (e) => {
+    e.preventDefault()
+    if (!email || !acceptTerms) return
+
+    setSubscribeStatus("loading")
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      setSubscribeStatus("success")
+      setEmail("")
+      setAcceptTerms(false)
+      setTimeout(() => setSubscribeStatus("idle"), 3000)
+    } catch (error) {
+      setSubscribeStatus("error")
+    }
+  }
 
   return (
-    <footer className="bg-gradient-to-br from-sky-800 via-blue-800 to-cyan-800 text-white">
+    <footer className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 text-white">
       {/* Main Footer Content */}
       <div className="mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Brand Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Brand Section with Newsletter */}
           <div className="lg:col-span-1 space-y-6">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-r from-cyan-400 to-blue-400 p-3 rounded-xl shadow-lg">
+              <div className="bg-gradient-to-r from-blue-400 to-cyan-400 p-3 rounded-xl shadow-lg">
                 <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z" />
                   <circle cx="12" cy="15" r="2" />
@@ -88,91 +77,72 @@ export default function Footer() {
               <span className="text-2xl font-bold">SaveRx</span>
             </div>
 
-            {/* Description */}
-            <p className="text-sky-100 leading-relaxed text-sm">
-              Your trusted online pharmacy providing quality medications, expert consultation, and convenient delivery
-              services for all your healthcare needs.
-            </p>
+            {/* Tagline */}
+            <p className="text-slate-300 leading-relaxed">Stay tuned for latest updates and new features</p>
 
-            {/* Trust Badges */}
-            <div className="space-y-3">
-              {trustBadges.map((badge, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <div className="bg-sky-700/50 p-2 rounded-lg">
-                    <badge.icon className="w-4 h-4 text-cyan-300" />
-                  </div>
-                  <span className="text-sm text-sky-100">{badge.text}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Social Media */}
-            <div className="space-y-3">
-              <h4 className="font-semibold text-white">Follow Us</h4>
-              <div className="flex space-x-3">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="bg-sky-700/50 hover:bg-sky-600/70 p-3 rounded-full transition-all duration-300 transform hover:scale-110 hover:shadow-lg"
-                    onMouseEnter={() => setHoveredSocial(index)}
-                    onMouseLeave={() => setHoveredSocial(null)}
-                  >
-                    <social.icon
-                      className={`w-5 h-5 transition-colors duration-300 ${
-                        hoveredSocial === index ? "text-cyan-300" : "text-sky-200"
-                      }`}
-                    />
-                  </a>
-                ))}
+            {/* Newsletter Signup */}
+            <form onSubmit={handleSubscribe} className="space-y-4">
+              <div className="flex">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address"
+                  className="flex-1 h-12 px-4 bg-white text-gray-900 rounded-l-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-gray-500"
+                  required
+                />
+                <CustomButton
+                  type="submit"
+                  disabled={!email || !acceptTerms || subscribeStatus === "loading"}
+                  className="h-12 px-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-l-none rounded-r-lg border-0 shadow-lg"
+                >
+                  {subscribeStatus === "loading" ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                  ) : (
+                    <>
+                      <ArrowRight className="w-4 h-4 mr-2" />
+                      Subscribe
+                    </>
+                  )}
+                </CustomButton>
               </div>
-            </div>
-          </div>
 
-          {/* Company Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white border-b border-sky-600 pb-2">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-sky-100 hover:text-cyan-300 transition-colors duration-300 text-sm hover:underline"
-                  >
-                    {link.label}
+              {/* Terms Checkbox */}
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="newsletter-terms"
+                  checked={acceptTerms}
+                  onCheckedChange={setAcceptTerms}
+                  className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 mt-1"
+                />
+                <label htmlFor="newsletter-terms" className="text-sm text-slate-300 leading-relaxed">
+                  I accept{" "}
+                  <a href="/terms" className="text-blue-400 hover:text-blue-300 underline">
+                    terms and conditions
+                  </a>{" "}
+                  &{" "}
+                  <a href="/privacy" className="text-blue-400 hover:text-blue-300 underline">
+                    privacy policy
                   </a>
-                </li>
-              ))}
-            </ul>
+                </label>
+              </div>
+
+              {/* Success Message */}
+              {subscribeStatus === "success" && (
+                <p className="text-green-400 text-sm">Successfully subscribed to our newsletter!</p>
+              )}
+            </form>
           </div>
 
-          {/* Customer Services */}
+          {/* Information Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white border-b border-sky-600 pb-2">Customer Services</h3>
-            <ul className="space-y-3">
-              {footerLinks.services.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-sky-100 hover:text-cyan-300 transition-colors duration-300 text-sm hover:underline"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white border-b border-sky-600 pb-2">Our Information</h3>
+            <h3 className="text-lg font-bold text-white">Information</h3>
             <ul className="space-y-3">
               {footerLinks.information.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-sky-100 hover:text-cyan-300 transition-colors duration-300 text-sm hover:underline"
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-sm hover:underline"
                   >
                     {link.label}
                   </a>
@@ -181,57 +151,62 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Account Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white border-b border-sky-600 pb-2">Contact Info</h3>
-            <div className="space-y-4">
-              {/* Phone */}
-              <div className="flex items-start space-x-3">
-                <Phone className="w-5 h-5 text-cyan-300 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sky-100 text-sm">24/7 Support</p>
+            <h3 className="text-lg font-bold text-white">Account</h3>
+            <ul className="space-y-3">
+              {footerLinks.account.map((link, index) => (
+                <li key={index}>
                   <a
-                    href="tel:+1-800-SAVERX-24"
-                    className="text-white font-semibold hover:text-cyan-300 transition-colors"
+                    href={link.href}
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-sm hover:underline"
                   >
-                    +234-800-SAVERX-24
+                    {link.label}
                   </a>
-                </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Information */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-white">About / Contacts</h3>
+            <div className="space-y-4">
+              {/* Address */}
+              <div className="flex items-start space-x-3">
+                <MapPin className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                <address className="text-slate-300 text-sm not-italic leading-relaxed">
+                  123 Healthcare Blvd.
+                  <br />
+                  Medical District, NY 10001
+                  <br />
+                  United States
+                </address>
               </div>
 
               {/* Email */}
-              <div className="flex items-start space-x-3">
-                <Mail className="w-5 h-5 text-cyan-300 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sky-100 text-sm">Email Support</p>
-                  <a
-                    href="mailto:support@saverx.com"
-                    className="text-white font-semibold hover:text-cyan-300 transition-colors"
-                  >
-                    support@saverx.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-cyan-300 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sky-100 text-sm">Main Office</p>
-                  <address className="text-white text-sm not-italic">
-                    123 Healthcare Rd.
-                    <br />
-                    Medical District, Abj 10001
-                  </address>
-                </div>
-              </div>
-
-              {/* Emergency */}
-              <div className="bg-red-600/20 border border-red-400/30 rounded-lg p-3 mt-4">
-                <p className="text-red-200 text-xs font-medium mb-1">Emergency Prescription</p>
-                <a href="tel:911" className="text-red-300 font-bold hover:text-red-200 transition-colors">
-                  Call 911 or Emergency Services
+              <div className="flex items-center space-x-3">
+                <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <a
+                  href="mailto:support@saverx.com"
+                  className="text-slate-300 hover:text-blue-400 transition-colors text-sm"
+                >
+                  support@saverx.com
                 </a>
+              </div>
+
+              {/* Social Media */}
+              <div className="flex space-x-3 pt-2">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.href}
+                    aria-label={social.label}
+                    className={`bg-slate-600 p-3 rounded-lg transition-all duration-300 transform hover:scale-110 hover:shadow-lg ${social.color}`}
+                  >
+                    <social.icon className="w-5 h-5 text-white" />
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -239,37 +214,16 @@ export default function Footer() {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-sky-600/50 bg-sky-900/50">
+      <div className="border-t border-slate-600">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="text-center md:text-left">
-              <p className="text-sky-200 text-sm">
-                Copyright © {new Date().getFullYear()}{" "}
-                <span className="text-cyan-300 font-semibold">SaveRx Pharmacy</span>. All Rights
-                Reserved.
+              <p className="text-slate-300 text-sm">
+                Copyright © 2024 <span className="text-blue-400 font-semibold">SaveRx</span>. All Rights Reserved
               </p>
-              <p className="text-sky-300 text-xs mt-1">Licensed Pharmacy | Registration: AB1234567</p>
             </div>
 
-            {/* Language and Currency Selectors */}
-            <div className="flex items-center justify-center md:justify-end space-x-4">
-              {/* Language Selector */}
-              <div className="relative">
-                <select
-                  value={selectedLanguage}
-                  onChange={(e) => setSelectedLanguage(e.target.value)}
-                  className="bg-sky-700/50 text-white border border-sky-600 rounded-lg px-3 py-2 text-sm appearance-none pr-8 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                >
-                  {languages.map((lang) => (
-                    <option key={lang} value={lang} className="bg-sky-800">
-                      {lang}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-sky-300 pointer-events-none" />
-              </div>
-            </div>
           </div>
         </div>
       </div>

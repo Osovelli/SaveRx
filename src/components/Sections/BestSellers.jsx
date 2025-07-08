@@ -130,12 +130,16 @@ export default function BestSellersSection() {
               onMouseLeave={() => setHoveredProduct(null)}
             >
               {/* Product Image Container */}
-              <div className="relative p-4 bg-gradient-to-br from-gray-50 to-gray-100">
+              <div className="relative bg-gradient-to-br from-gray-50 to-gray-100">
                 {/* Discount Badge */}
                 {product.discount > 0 && (
-                  <div className="absolute top-3 left-3 z-10">
+                  <div className="absolute flex flex-col gap-4 top-3 -left-2 z-10">
                     <span className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                       {product.discount}% off
+                    </span>
+
+                    <span className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                      {product.category}
                     </span>
                   </div>
                 )}
@@ -153,7 +157,7 @@ export default function BestSellersSection() {
                 </button>
 
                 {/* Product Image */}
-                <div className="aspect-square bg-white rounded-xl p-4 mb-4 flex items-center justify-center">
+                <div className="aspect-square bg-white rounded-xl mb-2 flex items-center justify-center">
                   <img
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
@@ -165,7 +169,7 @@ export default function BestSellersSection() {
               {/* Product Info */}
               <div className="p-4 space-y-3">
                 {/* Category */}
-                <p className="text-xs text-blue-600 font-medium uppercase tracking-wide">{product.category}</p>
+                {/* <p className="text-xs text-blue-600 font-medium uppercase tracking-wide">{product.category}</p> */}
 
                 {/* Product Name */}
                 <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-blue-600 transition-colors duration-300">
@@ -179,13 +183,13 @@ export default function BestSellersSection() {
                 </div>
 
                 {/* Rating */}
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                   <div className="flex items-center space-x-1">
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     <span className="font-bold text-gray-900 text-sm">{product.rating}</span>
                   </div>
                   <span className="text-xs text-gray-500">({product.reviews} reviews)</span>
-                </div>
+                </div> */}
 
                 {/* Pricing */}
                 {/* <div className="flex items-center space-x-2">
